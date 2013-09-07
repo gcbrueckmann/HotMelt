@@ -1,0 +1,9 @@
+[submodule "lib/Twig"]
+	path = lib/Twig
+	url = git@github.com:fabpot/Twig.git
+[submodule "lib/Negotiation"]
+	path = lib/Negotiation
+	url = git@github.com:willdurand/Negotiation.git
+[submodule "lib/Inflector"]
+	path = lib/Inflector
+	url = git@github.com:ICanBoogie/Inflector.git
