@@ -10,37 +10,45 @@ HotMelt doesn't yet support [Composer](http://getcomposer.org/), but adding it t
 
 Create a repository for your website:
 
-    $ mkdir MyWebsite
-	$ cd MyWebsite
-	$ git init
+``` bash
+$ mkdir MyWebsite
+$ cd MyWebsite
+$ git init
+```
 
 ### Add HotMelt Submodule
 
 Add HotMelt as a submodule. You can use any name for the submodule, but we will stick with `HotMelt` for this example.
 
-    $ git submodule add git@github.com:gcbrueckmann/HotMelt.git HotMelt
-    $ cd HotMelt
-    $ git submodule update --init
+``` bash
+$ git submodule add git@github.com:gcbrueckmann/HotMelt.git HotMelt
+$ cd HotMelt
+$ git submodule update --init
+```
 
 ### Create the Site Directory
 
 HotMelt assumes that certain files be placed in specific locations. You should create a directory named `Site` alongside the `HotMelt` directory that the HotMelt submodule lives in.
 
-    $ mkdir Site
+``` bash
+$ mkdir Site
+```
 
 ### Dispatch Requests to HotMelt
 
 Create an `.htaccess` file (in the repository's root directory) with the following *mod_redwrite* rules:
 
-    <IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
-    RewriteRule ^HotMelt/dispatch\.php$ - [L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /HotMelt/dispatch.php [L,QSA]
-    RewriteRule ^$ /HotMelt/dispatch.php [L,QSA]
-    </IfModule>
+``` apache
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^HotMelt/dispatch\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /HotMelt/dispatch.php [L,QSA]
+RewriteRule ^$ /HotMelt/dispatch.php [L,QSA]
+</IfModule>
+```
 
 This will redirect all requests for non-existing files to the HotMelt dispatch machinery.
 
@@ -54,12 +62,14 @@ Configuration options can be set in `Site/config.php`. Additionally, HotMelt wil
     
 The file `Site/init.php` is loaded by the dispatch machinery as soon as HotMelt is ready, but before a request has actually been processed. You can use this file to configure middleware and other requirements of your site.
 
-    <?php
-    \HotMelt\Middleware::add('HotMelt\\Middleware\\BasicAccessAuthentication', 'Password-Protected Area', function ($user, $password) {
-        // Grants access to for any non-empty user name/password combination
-        // where user name and password are identical.
-        return !empty($user) && $password == $user;
-    });
+``` php
+<?php
+\HotMelt\Middleware::add('HotMelt\\Middleware\\BasicAccessAuthentication', 'Password-Protected Area', function ($user, $password) {
+    // Grants access to for any non-empty user name/password combination
+    // where user name and password are identical.
+    return !empty($user) && $password == $user;
+});
+```
 
 You may also add autoload logic to `Site/autoload.php`. This file is loaded by HotMelt's own `autoload.php` as part of the initialization stage.
 
@@ -73,29 +83,31 @@ Controllers are implemented as callables, i.e. functions, or static or instance 
 
 For larger codebases it makes sense to group controllers in classes and namespaces:
 
-    <?php
-    namespace MySite;
-    
-    class Blog
+``` php
+<?php
+namespace MySite;
+
+class Blog
+{
+    public static function index($request, $route, $variables)
     {
-        public static function index($request, $route, $variables)
-        {
-            $page = isset('page', $variables) $variables['page'] : 1;
-            return array(
-                'posts' => self::getPosts($page)
-            );
-        }
-        
-        public static function newPost($request, $route, $variables)
-        {
-            if (!self::userCanCreatePosts()) {
-                throw new \HotMelt\HTTPErrorException(403, 'You are not allowed to create a new post.');
-            }
-            return array();
-        }
-        
-        ...
+        $page = isset('page', $variables) $variables['page'] : 1;
+        return array(
+            'posts' => self::getPosts($page)
+        );
     }
+    
+    public static function newPost($request, $route, $variables)
+    {
+        if (!self::userCanCreatePosts()) {
+            throw new \HotMelt\HTTPErrorException(403, 'You are not allowed to create a new post.');
+        }
+        return array();
+    }
+    
+    ...
+}
+```
 
 ### Implementing Views
 
@@ -105,12 +117,14 @@ Views are implemented by subclassing the `View` class. But in most scenarios thi
 
 Routes are declared through the interfaces provided by the `Route` class. HotMelt will automatically load `Site/routes.php`, so you should use that file to declare routes.
 
-    <?php
-    \HotMelt\Route::add('/^\/$/', 'MySite\\Blog::index', 'Index.html');
-    \HotMelt\Route::add('/^new-post$/', 'MySite\\Blog::newPost', 'NewPostEditor.html');
-    // This is the target of the post editor form in NewPostEditor.html.
-    // It only accepts POST requests.
-    \HotMelt\Route::add('/^new-post$/', 'MySite\\Blog::newPost', 'NewPostEditor.html', 'POST');
+``` php
+<?php
+\HotMelt\Route::add('/^\/$/', 'MySite\\Blog::index', 'Index.html');
+\HotMelt\Route::add('/^new-post$/', 'MySite\\Blog::newPost', 'NewPostEditor.html');
+// This is the target of the post editor form in NewPostEditor.html.
+// It only accepts POST requests.
+\HotMelt\Route::add('/^new-post$/', 'MySite\\Blog::newPost', 'NewPostEditor.html', 'POST');
+```
 
 `Route::add()` takes these arguments:
 
