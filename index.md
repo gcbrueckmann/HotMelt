@@ -8,6 +8,7 @@ layout: default
 HotMelt is a lightweight framework for implementing model-view-controller semantics. That means that HotMelt will help you bootstrap a website or web service in no time. Key selling points include:
 
 - Content type-aware view negotiation: Server different content types with different views through a single [route](https://github.com/gcbrueckmann/HotMelt/blob/master/Classes/Route.php)/URI depending on the HTTP `Content-Type` header sent with the request.
+- Template support powered by [Twig][twig].
 - A thin [object-relational mapper layer][orm]: Things like `\MySite\Blog\Post::findByTag($requestedTag)` work without any boilerplate code (except the class definition, of course).
 - [Middleware](https://github.com/gcbrueckmann/HotMelt/blob/master/Classes/Middleware.php) support so you can easily extend HotMelt.
 - Host name-based [configuration](https://github.com/gcbrueckmann/HotMelt/blob/master/Classes/Config.php).
@@ -32,3 +33,4 @@ The HotMelt project has been initiated by [Georg C. Brückmann][gcb] but is open
 [source]: https://github.com/gcbrueckmann/HotMelt
 [gcb]: http://gcbrueckmann.de
 [orm]: https://github.com/gcbrueckmann/HotMelt/blob/master/Classes/PersistentObject.php
+[twig]: https://github.com/fabpot/Twig
