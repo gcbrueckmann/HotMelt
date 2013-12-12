@@ -5,7 +5,12 @@ layout: default
 
 # What Is HotMelt?
 
-HotMelt is a lightweight framework for implementing model-view-controller semantics. That means that HotMelt will help you bootstrap a website or web service in no time.
+HotMelt is a lightweight framework for implementing model-view-controller semantics. That means that HotMelt will help you bootstrap a website or web service in no time. Key selling points include:
+
+- Content type-aware view negotiation: Server different content types with different views through a single [route](https://github.com/gcbrueckmann/HotMelt/blob/master/Classes/Route.php)/URI depending on the HTTP `Content-Type` header sent with the request.
+- A thin [object-relational mapper layer][orm]: Things like `\MySite\Blog\Post::findByTag($requestedTag)` work without any boilerplate code (except the class definition, of course).
+- [Middleware](https://github.com/gcbrueckmann/HotMelt/blob/master/Classes/Middleware.php) support so you can easily extend HotMelt.
+- Host name-based [configuration](https://github.com/gcbrueckmann/HotMelt/blob/master/Classes/Config.php).
 
 # How Mature Is HotMelt?
 
@@ -16,7 +21,7 @@ HotMelt is currently used in production, and the features already implemented sh
 
 # Where Do I Go from Here?
 
-If you want to start playing with HotMelt, head over to the [README file](https://github.com/gcbrueckmann/HotMelt/blob/master/README.md) for setup instructions. [Browse the documentation][docs] to learn more about the topics covered above, or [check out the source][source] at GitHub, if you’re into the gory details.
+If you want to start playing with HotMelt, head over to the [README file](https://github.com/gcbrueckmann/HotMelt/blob/master/README.md) for setup instructions. Or [check out the source][source] at GitHub, if you’re into the gory details.
 
 # Who Are the Authors?
 
