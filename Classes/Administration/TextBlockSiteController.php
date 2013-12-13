@@ -1,6 +1,11 @@
 <?php
 namespace HotMelt\Administration;
 
+/**
+ * A helper controller to manage text blocks (which in turn are deprecated).
+ * 
+ * @deprecated 1.1.0 Deprecated since HotMelt 1.0.0.
+ */
 class TextBlockSiteController
 {
 	private static function editableTextBlockManager()

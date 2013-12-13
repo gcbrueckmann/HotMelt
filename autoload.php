@@ -1,4 +1,9 @@
 <?php
+/**
+ * Registers an autoload function for the HotMelt namespace and its dependencies.
+ * 
+ * If present, the autoload file in the site directory will also be loaded.
+ */
 namespace HotMelt;
 
 spl_autoload_register(function ($class) {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+	<parser>
+		<target>data/output</target>
+	</parser>
+	<transformer>
+		<target>data/output</target>
+	</transformer>
+    <transformations>
+        <template name="responsive-twig"/>
+	</transformations>
+	<files>
+		<file>*.php</file>
+		<file>Classes/*.php</file>
+	</files>
+</phpdoc>

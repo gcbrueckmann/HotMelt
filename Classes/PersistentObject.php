@@ -1,8 +1,24 @@
 <?php
+/**
+ * Defines the `\HotMelt\PersistentObject` class.
+ */
 namespace HotMelt;
 
+/**
+ * Implements a lightweight object-relational-mapper interface.
+ * 
+ * The `PersistentObject` class prefers convention over configuration.
+ * This is an overview of the conventions that the `PersistentObject` class establishes and how to override them:
+ * 
+ * - Objects are read from and written to a table that is the plural form of the subclass name (without the namespace prefix). Override the `tableName()` method to change this.
+ * - Objects have a primary key (assumged to be an auto-incrementing integer) named `id`. Override the `primaryKey()` method to change this.
+ * - Some methods allow you to specify a `\HotMelt\PDO` object for database access. If not PDO is given, the PDO returned from the `defaultPDO()` class method is used. The default value returned by this method is `null`, however, so you will have to override this method to use a default PDO.
+ * 
+ * Note that you should not directly create a new persistent object instance. Use the `findBy...()` and `insert()` methods to retrieve existing objects or create new ones.
+ */
 class PersistentObject
 {
+	/** @ignore */
 	public function __construct($fetchedProperties = false)
 	{
 		if ($fetchedProperties === false) {
@@ -16,7 +32,14 @@ class PersistentObject
 			}
 		}
 	}
-
+	
+	/**
+	 * Return the name of the table that stores records for objects of this class.
+	 * 
+	 * Defaults to the plural form of the class name (without a namespace prefix).
+	 * 
+	 * @return string
+	 */
 	public static function tableName()
 	{
 		$class = get_called_class();
@@ -28,16 +51,31 @@ class PersistentObject
 		return $inflector->pluralize($class);
 	}
 	
+	/**
+	 * Return the name of the primary key property of objects of this class.
+	 * 
+	 * Defaults to `'id'`.
+	 * 
+	 * @return string
+	 */
 	public static function primaryKey()
 	{
 		return 'id';
 	}
 	
+	/**
+	 * Return the default PDO to use, i.e. for methods that let you specify a PDO to use but are called without specifying a PDO.
+	 * 
+	 * Defaults to `null`.
+	 * 
+	 * @return PDO
+	 */
 	public static function defaultPDO()
 	{
 		return null;
 	}
 	
+	/** @ignore */
 	private function publicProperties()
 	{ 
 		$me = $this; 
@@ -47,9 +85,16 @@ class PersistentObject
 		return $publics(); 
 	}
 	
+	/**
+	 * Write changes to an object to the database.
+	 * 
+	 * For newly inserted objects, this will also set the primary key property.
+	 * 
+	 * @return boolean `true` if the changes can be saved, `false` if not.
+	 */
 	public function save()
 	{
-		$quotedTableName = $this->PDO->quoteIdentifier(call_user_func(get_class($this).'::tableName'));
+		$quotedTableName = $this->pdo->quoteIdentifier(call_user_func(get_class($this).'::tableName'));
 		$boundColumns = array();
 		$bindParameters = array();
 		$primaryKey = call_user_func(get_class($this).'::primaryKey');
@@ -63,32 +108,35 @@ class PersistentObject
 		}
 		if ($isNew) {
 			$assignmentColumns = implode(', ', array_map(function ($column) {
-				return $this->PDO->quoteIdentifier($column);
+				return $this->pdo->quoteIdentifier($column);
 			}, $boundColumns));
 			$assignmentValues = implode(', ', array_map(function ($column) {
 				return ":$column";
 			}, $boundColumns));
-			$statement = $this->PDO->prepare("INSERT INTO $quotedTableName ( $assignmentColumns ) VALUES ( $assignmentValues )");
+			$statement = $this->pdo->prepare("INSERT INTO $quotedTableName ( $assignmentColumns ) VALUES ( $assignmentValues )");
 		} else {
 			$assignments = implode(', ', array_map(function ($column) {
-				return $this->PDO->quoteIdentifier($column)." = :$column";
+				return $this->pdo->quoteIdentifier($column)." = :$column";
 			}, $boundColumns));
-			$statement = $this->PDO->prepare("UPDATE $quotedTableName SET $assignments WHERE ".$this->PDO->quoteIdentifier($primaryKey)." = :$primaryKey");
+			$statement = $this->pdo->prepare("UPDATE $quotedTableName SET $assignments WHERE ".$this->pdo->quoteIdentifier($primaryKey)." = :$primaryKey");
 		}
 		if (!$statement->execute($bindParameters)) {
 			Log::error("Could not save ".get_class($this)." ".$this->{$primaryKey}.": ".var_export($statement->errorInfo(), true));
 			return false;
 		}
 		if ($isNew) {
-			$this->{$primaryKey} = $this->PDO->lastInsertId();
+			$this->{$primaryKey} = $this->pdo->lastInsertId();
 			$this->_fetchedProperties[] = $primaryKey;
 		}
 		return true;
 	}
 	
+	/** @ignore */
 	const FIND_BY_KEY_PREFIX = 'findBy';
+	/** @ignore */
 	const COUNT_BY_KEY_PREFIX = 'countBy';
 	
+	/** @ignore */
 	public static function __callStatic($name, $arguments)
 	{
 		if (strpos($name, self::FIND_BY_KEY_PREFIX) === 0) {
@@ -104,10 +152,11 @@ class PersistentObject
 		}
 	}
 	
-	private static function _findByKey($class, $keyName, $keyValue, $limit = false, $sorting = false, $PDO = null)
+	/** @ignore */
+	private static function _findByKey($class, $keyName, $keyValue, $limit = false, $sorting = false, $pdo = null)
 	{
-		if ($PDO === null) {
-			assert(($PDO = call_user_func("$class::defaultPDO")) !== null);
+		if ($pdo === null) {
+			assert(($pdo = call_user_func("$class::defaultPDO")) !== null);
 		}
 		$tableName = call_user_func("$class::tableName");
 		if ($limit === false) {
@@ -121,14 +170,14 @@ class PersistentObject
 		if ($sorting === false) {
 			$sorting = '';
 		} elseif (strpos($sorting, '+') === 0) {
-			$sorting = 'ORDER BY '.$PDO->quoteIdentifier(substr($sorting, 1)).' ASC';
+			$sorting = 'ORDER BY '.$pdo->quoteIdentifier(substr($sorting, 1)).' ASC';
 		} elseif (strpos($sorting, '-') === 0) {
-			$sorting = 'ORDER BY '.$PDO->quoteIdentifier(substr($sorting, 1)).' DESC';
+			$sorting = 'ORDER BY '.$pdo->quoteIdentifier(substr($sorting, 1)).' DESC';
 		} else {
-			$sorting = 'ORDER BY '.$PDO->quoteIdentifier($sorting).' ASC';
+			$sorting = 'ORDER BY '.$pdo->quoteIdentifier($sorting).' ASC';
 		}
-		Log::info("SELECT * FROM ".$PDO->quoteIdentifier($tableName)." WHERE ".$PDO->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
-		$statement = $PDO->prepare("SELECT * FROM ".$PDO->quoteIdentifier($tableName)." WHERE ".$PDO->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
+		Log::info("SELECT * FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
+		$statement = $pdo->prepare("SELECT * FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
 		if (!$statement->execute(array(":$keyName" => $keyValue))) {
 			return false;
 		}
@@ -139,10 +188,11 @@ class PersistentObject
 		return $results;
 	}
 	
-	private static function _countByKey($class, $keyName, $keyValue, $limit = false, $PDO = null)
+	/** @ignore */
+	private static function _countByKey($class, $keyName, $keyValue, $limit = false, $pdo = null)
 	{
-		if ($PDO === null) {
-			assert(($PDO = call_user_func("$class::defaultPDO")) !== null);
+		if ($pdo === null) {
+			assert(($pdo = call_user_func("$class::defaultPDO")) !== null);
 		}
 		$tableName = call_user_func("$class::tableName");
 		if ($limit === false) {
@@ -150,7 +200,7 @@ class PersistentObject
 		} else {
 			$limit = "LIMIT $limit";
 		}
-		$statement = $PDO->prepare("SELECT COUNT(*) AS rowCount FROM ".$PDO->quoteIdentifier($tableName)." WHERE ".$PDO->quoteIdentifier($keyName)." = :$keyName $limit");
+		$statement = $pdo->prepare("SELECT COUNT(*) AS rowCount FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $limit");
 		if (!$statement->execute(array(":$keyName" => $keyValue))) {
 			return false;
 		}
@@ -160,31 +210,58 @@ class PersistentObject
 		return intval($result->rowCount);
 	}
 	
-	public static function insert($properties = false, $PDO = null)
+	/**
+	 * Create a new object and saves it to the database.
+	 * 
+	 * @param array $properties The values to assign for the new object's properties. Set to `false` (rather than an empty array) if you do not wish to assign default values.
+	 * @param PDO $pdo The PDO to associate with the new object.
+	 * 
+	 * @return mixed The newly inserted object if changes could be saved, `false` if not.
+	 */
+	public static function insert($properties = false, $pdo = null)
 	{
-		if ($PDO === null) {
+		if ($pdo === null) {
 			$class = get_called_class();
-			assert(($PDO = call_user_func("$class::defaultPDO")) !== null);
+			assert(($pdo = call_user_func("$class::defaultPDO")) !== null);
 		}
 		$reflector = new \ReflectionClass(get_called_class());
 		$obj = $reflector->newInstance($properties);
-		$obj->PDO = $PDO;
+		$obj->pdo = $pdo;
 		if (!$obj->save()) {
 			return false;
 		}
 		return $obj;
 	}
 	
+	/**
+	 * Delete an object.
+	 */
 	public function delete()
 	{
 		$class = get_class($this);
 		$tableName = call_user_func("$class::tableName");
 		$primaryKey = call_user_func("$class::primaryKey");
-		Log::info("DELETE FROM ".$this->PDO->quoteIdentifier($tableName)." WHERE ".$this->PDO->quoteIdentifier($primaryKey)." = :$primaryKey LIMIT 1");
-		$statement = $this->PDO->prepare("DELETE FROM ".$this->PDO->quoteIdentifier($tableName)." WHERE ".$this->PDO->quoteIdentifier($primaryKey)." = :$primaryKey LIMIT 1");
+		Log::info("DELETE FROM ".$this->pdo->quoteIdentifier($tableName)." WHERE ".$this->pdo->quoteIdentifier($primaryKey)." = :$primaryKey LIMIT 1");
+		$statement = $this->pdo->prepare("DELETE FROM ".$this->pdo->quoteIdentifier($tableName)." WHERE ".$this->pdo->quoteIdentifier($primaryKey)." = :$primaryKey LIMIT 1");
 		return $statement->execute(array(":$primaryKey" => $this->{$primaryKey}));
 	}
 	
+	/**
+	 * Retrieve cached property values.
+	 * 
+	 * Use this method to cache property values that are expensive to compute.
+	 * You provide the property name along with a getter.
+	 * When you first call this method, `getCachedProperty()` will in turn call your getter to compute the value, store the value returned from the getter in the cache and then return the value to you.
+	 * Subsequent calls to this method will return the value stored in the cache and will not result in the getter being called.
+	 * 
+	 * To invalidate a cached property value use the `\HotMelt\PersistentObject::purgeCachedProperty()` method.
+	 * 
+	 * @param string $key The name of the property whose value you wish to retrieve.
+	 * @param callable $getter A callback function that computes the property value and returns it. This function should not take any parameters.
+	 * @return mixed
+	 * 
+	 * @see \HotMelt\PersistentObject::purgeCachedProperty()
+	 */
 	public function getCachedProperty($key, $getter)
 	{
 		if (!isset($this->{"_$key"})) {
@@ -193,6 +270,13 @@ class PersistentObject
 		return $this->{"_$key"};
 	}
 	
+	/**
+	 * Invalidates the value for a property cached through `\HotMelt\PersistentObject::getCachedProperty()`.
+	 * 
+	 * @param string $key The name of the property whose value you wish to purge from the cache.
+	 * 
+	 * @see \HotMelt\PersistentObject::getCachedProperty()
+	 */
 	public function purgeCachedProperty($key)
 	{
 		unset($this->{"_$key"});
