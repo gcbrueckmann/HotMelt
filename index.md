@@ -1,7 +1,10 @@
 ---
 title: Home
 layout: default
+no_title: true
 ---
+
+{{ shows_title }}
 
 # What Is HotMelt?
 

@@ -12,12 +12,13 @@
                 <h1>HotMelt</h1>
             </a>
             <ul>
-                <li><a href="/HotMelt/docs/">Documentation</a></li>
+                <li><a href="/HotMelt/docs/" {% if page.section == 'docs' %}class="current"{% endif %}>Documentation</a></li>
                 <li><a href="https://github.com/gcbrueckmann/HotMelt">Source</a></li>
             </ul>
         </nav>
     </header>
     <section id="middle">
+		{% if page.no_title != true %}<header id="page-title">{{ page.title }}</header>{% endif %}
         <div id="main">{{ content }}</div>
     </section>
     <footer id="bottom">

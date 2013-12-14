@@ -61,10 +61,19 @@ nav {
 	clear: both;
 }
 
-#main {
-    max-width: 750px;
+#page-title {
+    max-width: 728px;
     margin: 0 auto;
-	padding: 1em 0;
+	padding: 0.5em 20px 0 20px;
+    font-family: 'Ubuntu', sans-serif;
+	font-size: 200%;
+	font-weight: bold;
+}
+
+#main {
+    max-width: 728px;
+    margin: 0 auto;
+	padding: 1em 20px;
 }
 
 #main>*:first-child {
@@ -105,8 +114,9 @@ nav {
 }
 
 #site-nav {
-    max-width: 750px;
+    max-width: 728px;
     margin: 0 auto;
+	padding: 0 20px;
 }
 
 #site-nav>ul {
@@ -130,6 +140,11 @@ nav {
 }
 
 #site-nav>ul>li>a:hover {
+	text-decoration: none;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+#site-nav>ul>li>a.current, #site-nav>ul>li>a.current:hover {
 	text-decoration: none;
 	background-color: rgba(0, 0, 0, 0.3);
 	border-left: 1px solid rgba(0, 0, 0, 0.3);
@@ -160,11 +175,11 @@ nav {
 }
 
 #bottom {
-	max-width: 750px;
+	max-width: 728px;
 	margin: 0 auto;
-	padding: 0.7em 0;
+	padding: 0.7em 20px 1.5em 20px;
 	font-size: 75%;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.9);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.9);
 	text-align: center;
 }
 
@@ -175,4 +190,11 @@ nav {
 
 #bottom>a:hover {
 	text-decoration: underline;
+}
+
+li>code, p>code {
+	font-size: 90%;
+	padding: 0 0.2em;
+	background-color: rgba(255, 255, 255, 0.3);
+	border: 1px solid rgba(0, 0, 0, 0.1);
 }
