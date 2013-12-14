@@ -179,7 +179,7 @@ class Site
 
 While we have approached things in a different order before, it is usually best to design your site top-down, starting with the user interface. For a website, URLs and URIs are a part of this user interface, so let's pay a little more attention to what the user sees in their browser's location field.
 
-The query strings we've used until now are a reliable tool, but they make URLs look rather ugly. Also, it would probably be nice if you could have your site use greetings other than *hello.* Conceptually what we want to achieve is that URIs like `/greetings/konichiwa` and `/greetings/ahoi` show a page like before, only with *konichiwa* and `ahoi` substituted for `hello.` Also, we do not want to hard-code every possible greeting. So what we will do is declare a route with a placeholder for the greeting in `Site/routes.php`. And then we want all requests for `/` redirect to the default greeting of *hello.*
+The query strings we've used until now are a reliable tool, but they make URLs look rather ugly. Also, it would probably be nice if you could have your site use greetings other than *hello.* Conceptually what we want to achieve is that URIs like `/greetings/konichiwa` and `/greetings/ahoi` show a page like before, only with *konichiwa* and *ahoi* substituted for *hello.* Also, we do not want to hard-code every possible greeting. So what we will do is declare a route with a placeholder for the greeting in `Site/routes.php`. And then we want all requests for `/` redirect to the default greeting of *hello.*
 
 First, add a new route to `Site/routes.php` and replace the index route you previously declared. We also have to declare the error because it will be used when we redirect from the `index` action that matches requests for `/`.
 
@@ -261,7 +261,7 @@ Now you need to add a template for greeting route and one for the error route yo
 </head>
 <body>
     <h1>Error {{ "{{ httpStatusCode" }} }} {{ "{{ httpStatusMessage" }} }}</h1>
-	<p>{{ "{{ errorMessage" }} }}
+	<p>{{ "{{ errorMessage" }} }}</p>
 </body>
 ```
 
