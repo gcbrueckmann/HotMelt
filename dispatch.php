@@ -1,4 +1,9 @@
 <?php
+/**
+ * Main entry point for a website using HotMelt.
+ * 
+ * Redirect requests to this file to have them processed by HotMelt.
+ */
 namespace HotMelt;
 
 error_reporting(E_ALL);

@@ -1,21 +1,36 @@
 <?php
+/**
+ * Defines the deprecated `\HotMelt\TextBlockManager` class.
+ */
 namespace HotMelt;
 
+/**
+ * A deprecated way to implement dynamic text on web pages.
+ * 
+ * @deprecated 1.1.0 Deprecated since HotMelt 1.0.0.
+ */
 class TextBlockManager
 {
+	/** @ignore */
 	const TABLE_NAME    = 'tableName';
+	/** @ignore */
 	const DEFAULT_TABLE = 'hm_text_blocks';
+	/** @ignore */
 	const PRELOAD_SETS  = 'preload_sets';
+	/** @ignore */
 	const CACHE_SETS    = 'cache_sets';
 	
+	/** @ignore */
 	private $_options;
 	
+	/** @ignore */
 	public function __construct($PDO, $options = null)
 	{
 		$this->PDO = $PDO;
 		$this->_options = $options ? $options : array();
 	}
 	
+	/** @ignore */
 	public function option($key)
 	{
 		if (isset($this->_options[$key])) {
@@ -31,8 +46,10 @@ class TextBlockManager
 		throw new \Exception("Invalid option ($key).");
 	}
 			
+	/** @ignore */
 	private static $blockSets = array();
 	
+	/** @ignore */
 	public function getBlock($name, $set, $description = null)
 	{
 		if (!$this->option(self::CACHE_SETS)) {
@@ -66,6 +83,7 @@ class TextBlockManager
 		}
 	}
 	
+	/** @ignore */
 	public function getSets()
 	{
 		$statement = $this->PDO->prepare("SELECT `set`
@@ -79,6 +97,7 @@ class TextBlockManager
 		return $sets;
 	}
 	
+	/** @ignore */
 	public function getBlockNames($set)
 	{
 		$statement = $this->PDO->prepare("SELECT name, description

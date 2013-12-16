@@ -1,8 +1,15 @@
 <?php
+/**
+ * Defines the `\HotMelt\HTTP` class.
+ */
 namespace HotMelt;
 
+/**
+ * Provides convenience method for dealing with HTTP messages.
+ */
 class HTTP
 {
+	/** @ignore */
 	private static $HTTPStatusMessages = array(
 		'202' => 'Accepted',
 		'208' => 'Already Reported',
@@ -64,11 +71,25 @@ class HTTP
 		'506' => 'Variant Also Negotiates (Experimental)'
 	);
 	
+	/**
+	 * Returns the status message corresponding to an HTTP status code.
+	 * 
+	 * @param int $statusCode A status code conforming to RFC 2616.
+	 * @return string
+	 * 
+	 * @link Hypertext Transfer Protocol (HTTP) Status Code Registry http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+	 */
 	public static function statusMessage($statusCode)
 	{
 		return self::$HTTPStatusMessages[$statusCode];
 	}
 	
+	/**
+	 * Send an HTTP status header, e.g. `HTTP/1.1 200 OK`.
+	 * 
+	 * @param int $statusCode The status code to send.
+	 * @return void
+	 */
 	public static function statusHeader($statusCode)
 	{
 		header($_SERVER['SERVER_PROTOCOL']." $statusCode ".self::statusMessage($statusCode));
