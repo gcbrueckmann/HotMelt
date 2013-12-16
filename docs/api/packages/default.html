@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>     &raquo; \Default
+</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+            <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+            <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+        <![endif]-->
+        <script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script>
+        <script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script>
+        <script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script>
+        <script src="../js/bootstrap.js" type="text/javascript"></script>
+        <script src="../js/template.js" type="text/javascript"></script>
+        <script src="../js/prettify/prettify.min.js" type="text/javascript"></script>
+    
+            <link rel="shortcut icon" href="../img/favicon.ico"/>
+        <link rel="apple-touch-icon" href="../img/apple-touch-icon.png"/>
+        <link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png"/>
+        <link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png"/>
+    </head>
+<body>
+
+        <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> </a>
+                <a class="brand" href="../index.html">HotMelt API Reference</a>
+
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                API Documentation <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                                                    <li><a>Namespaces</a></li>
+                                                                        <li><a href="../namespaces/HotMelt.html">HotMelt</a></li>
+                                                                                                                                </ul>
+                        </li>
+                        <li class="dropdown" id="charts-menu">
+                            <a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                Charts <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="../graph_class.html">
+                                        <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" id="reports-menu">
+                            <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                Reports <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="../errors.html">
+                                        <i class="icon-list-alt"></i>&#160;Errors
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../markers.html">
+                                        <i class="icon-list-alt"></i>&#160;Markers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="../deprecated.html">
+                                        <i class="icon-list-alt"></i>&#160;Deprecated
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="go_to_top">
+            <a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>
+        </div>
+    </div>
+    
+    <div id="___" class="container">
+        <noscript>
+            <div class="alert alert-warning">
+                Javascript is disabled; several features are only available if Javascript is enabled.
+            </div>
+        </noscript>
+
+        
+            
+    <div class="row">
+
+        <div class="span4">
+            <div class="btn-group view pull-right" data-toggle="buttons-radio">
+                <button class="btn details" title="Show descriptions and method names">
+                    <i class="icon-list"></i></button><button class="btn simple" title="Show only method names">
+                    <i class="icon-align-justify"></i>
+                </button>
+            </div>
+            <ul class="side-nav nav nav-list">
+                <li class="nav-header">
+                    <i class="icon-map-marker"></i> Packages
+                </li>
+                    
+    
+            </ul>
+        </div>
+
+        <div class="span8 package-contents">
+                
+    
+        <ul class="breadcrumb">
+            <li><a href="../index.html"><i class="icon-th"></i></a></li>
+                
+                
+    
+    <li>
+        <span class="divider">\</span><a href="../packages/default.html"></a>
+    </li>
+
+    
+    <li>
+        <span class="divider">\</span><a href="../packages/Default.html">Default</a>
+    </li>
+
+        </ul>
+
+        
+        
+                    <div class="package-indent">
+                <h3><i class="icon-custom icon-class"></i> Classes, interfaces and traits</h3>
+                
+                
+                                        <div id="Action" class="element ajax clickable class">
+        <h1>Action<a href="../classes/HotMelt.Action.html">¶</a></h1>
+        <p class="short_description">Actions process a request and produce data to be displayed in a view.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.Action.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="Config" class="element ajax clickable class">
+        <h1>Config<a href="../classes/HotMelt.Config.html">¶</a></h1>
+        <p class="short_description">Provides an interface for managing configuration options.</p>
+        <div class="details collapse">To get an set options, either use `\HotMelt\Config::get()` and \HotMelt\Config::set()`, respectively,
+or take advantage of the fact that `\HotMelt\Config` allows arbitrary method overloading
+
+`\HotMelt\Config` parses these configuration files:
+
+- `Site/config.php`
+- `Site/config-&lt;DOMAIN&gt;.php`
+
+For a host name beginning with *www.*, `\HotMelt\Config` will also try to load the configuration file for the corresponding host name without *www.*.</div>
+        <a href="../classes/HotMelt.Config.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="Cookie" class="element ajax clickable class">
+        <h1>Cookie<a href="../classes/HotMelt.Cookie.html">¶</a></h1>
+        <p class="short_description">Provides an interace for manipulating HTTP cookies.</p>
+        <div class="details collapse">Create a cookie object and access its value with the `value` property.
+Use `\HotMelt\Cookie::update()` to change its value and send the cookie back to the client,
+or use `\HotMelt\Cookie::delete()` to delete the cookie.</div>
+        <a href="../classes/HotMelt.Cookie.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="HTTP" class="element ajax clickable class">
+        <h1>HTTP<a href="../classes/HotMelt.HTTP.html">¶</a></h1>
+        <p class="short_description">Provides convenience method for dealing with HTTP messages.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.HTTP.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="HTTPErrorException" class="element ajax clickable class">
+        <h1>HTTPErrorException<a href="../classes/HotMelt.HTTPErrorException.html">¶</a></h1>
+        <p class="short_description">Throw an instance of `\HotMelt\HTTPErrorException` to break out of the regular controlf flow.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.HTTPErrorException.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="JSONView" class="element ajax clickable class">
+        <h1>JSONView<a href="../classes/HotMelt.JSONView.html">¶</a></h1>
+        <p class="short_description">Renders a JSON-encoded representation of the data produced by a route&#039;s action.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.JSONView.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="Log" class="element ajax clickable class">
+        <h1>Log<a href="../classes/HotMelt.Log.html">¶</a></h1>
+        <p class="short_description">Provides logging capabilities to the HotMelt framework.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.Log.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="Middleware" class="element ajax clickable class">
+        <h1>Middleware<a href="../classes/HotMelt.Middleware.html">¶</a></h1>
+        <p class="short_description">Provides an API for extending HotMelt&#039;s request handling machinery.</p>
+        <div class="details collapse">Middleware can register for hooks to intercept requests.</div>
+        <a href="../classes/HotMelt.Middleware.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="PDO" class="element ajax clickable class">
+        <h1>PDO<a href="../classes/HotMelt.PDO.html">¶</a></h1>
+        <p class="short_description">Extends to default `PDO` class with capabilities used by other HotMelt classes.</p>
+        <div class="details collapse">Extensions include a wrapper around `\PDO::prepare()` that wraps statements in an instance of `\HotMelt\PDOStatementDecorator` and support for quoting identifiers (`\HotMelt\PDO::quoteIdentifier()`).</div>
+        <a href="../classes/HotMelt.PDO.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="PDOStatementDecorator" class="element ajax clickable class">
+        <h1>PDOStatementDecorator<a href="../classes/HotMelt.PDOStatementDecorator.html">¶</a></h1>
+        <p class="short_description">Implements a wrapper around the default `\PDOStatement` class providing features required by the HotMelt ORM layer.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.PDOStatementDecorator.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="PersistentObject" class="element ajax clickable class">
+        <h1>PersistentObject<a href="../classes/HotMelt.PersistentObject.html">¶</a></h1>
+        <p class="short_description">Implements a lightweight object-relational-mapper interface.</p>
+        <div class="details collapse">The `PersistentObject` class prefers convention over configuration.
+This is an overview of the conventions that the `PersistentObject` class establishes and how to override them:
+
+- Objects are read from and written to a table that is the plural form of the subclass name (without the namespace prefix). Override the `tableName()` method to change this.
+- Objects have a primary key (assumged to be an auto-incrementing integer) named `id`. Override the `primaryKey()` method to change this.
+- Some methods allow you to specify a `\HotMelt\PDO` object for database access. If not PDO is given, the PDO returned from the `defaultPDO()` class method is used. The default value returned by this method is `null`, however, so you will have to override this method to use a default PDO.
+
+Note that you should not directly create a new persistent object instance. Use the `findBy...()` and `insert()` methods to retrieve existing objects or create new ones.</div>
+        <a href="../classes/HotMelt.PersistentObject.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="RedirectionView" class="element ajax clickable class">
+        <h1>RedirectionView<a href="../classes/HotMelt.RedirectionView.html">¶</a></h1>
+        <p class="short_description">A deprecated way to implement redirections.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.RedirectionView.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="Request" class="element ajax clickable class">
+        <h1>Request<a href="../classes/HotMelt.Request.html">¶</a></h1>
+        <p class="short_description">Collects information about requests handled by the HotMelt dispatch machinery.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.Request.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="Response" class="element ajax clickable class">
+        <h1>Response<a href="../classes/HotMelt.Response.html">¶</a></h1>
+        <p class="short_description">Collects information about a response to send for a request.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.Response.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="Route" class="element ajax clickable class">
+        <h1>Route<a href="../classes/HotMelt.Route.html">¶</a></h1>
+        <p class="short_description">Maps URI patterns to actions and views.</p>
+        <div class="details collapse">Routes are declared through the interfaces provided by the `\HotMelt\Route` class.
+HotMelt will automatically load `Site/routes.php`, so you should use that file to declare routes.</div>
+        <a href="../classes/HotMelt.Route.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="TemplateView" class="element ajax clickable class">
+        <h1>TemplateView<a href="../classes/HotMelt.TemplateView.html">¶</a></h1>
+        <p class="short_description">Provides support for views using the Twig template engine.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.TemplateView.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="TextBlockManager" class="element ajax clickable class">
+        <h1>TextBlockManager<a href="../classes/HotMelt.TextBlockManager.html">¶</a></h1>
+        <p class="short_description">A deprecated way to implement dynamic text on web pages.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.TextBlockManager.html" class="more">« More »</a>
+    </div>
+
+                                        <div id="View" class="element ajax clickable class">
+        <h1>View<a href="../classes/HotMelt.View.html">¶</a></h1>
+        <p class="short_description">Coordinates rendering of the data produced by an action.</p>
+        <div class="details collapse"></div>
+        <a href="../classes/HotMelt.View.html" class="more">« More »</a>
+    </div>
+
+                            </div>
+            
+    
+        </div>
+    </div>
+    </div>
+
+        <footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by
+            <a href="http://glyphicons.com/">Glyphicons</a>.<br/>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and<br/>
+            generated on Mon, 16 Dec 2013 14:42:13 +0100.<br/>
+    </footer>
+    </body>
+</html>
