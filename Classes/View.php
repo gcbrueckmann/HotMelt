@@ -65,7 +65,7 @@ class View
 	 * @param string $contentType The content type to assign to the view.
 	 * @return \HotMelt\View
 	 */
-	public static function make($name, $contentType)
+	final public static function make($name, $contentType)
 	{
 		try {
 			$reflector = new \ReflectionClass($name);

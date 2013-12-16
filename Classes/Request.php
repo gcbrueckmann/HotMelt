@@ -59,7 +59,7 @@ class Request
 	 * 
 	 * @todo Rename to 'httpServerRequest' for 1.1.0.
 	 */
-	public static function HTTPServerRequest()
+	final public static function HTTPServerRequest()
 	{
 		if (!isset(self::$httpServerRequest)) {
 			$class = __CLASS__;

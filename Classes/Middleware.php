@@ -48,7 +48,7 @@ class Middleware
 	 * @param callable $callback The callback to execute for the hook.
 	 * @return void
 	 */
-	public static function registerHook($name, $callback)
+	final public static function registerHook($name, $callback)
 	{
 		if (!isset(self::$hooks[$name])) {
 			self::$hooks[$name] = array();
@@ -64,7 +64,7 @@ class Middleware
 	 * @param string $name The name of hook for which to execute registered callbacks.
 	 * @return array The data accumulated by executing all registered callbacks.
 	 */
-	public static function executeHook($name)
+	final public static function executeHook($name)
 	{
 		self::registerMiddleware();
 		
@@ -87,7 +87,7 @@ class Middleware
 	 * 
 	 * @param string $name The class name of the middleware to add.
 	 */
-	public static function add($name)
+	final public static function add($name)
 	{
 		$args = array_slice(func_get_args(), 1);
 		$reflector = new \ReflectionClass($name);

@@ -24,7 +24,7 @@ namespace HotMelt;
  * 
  * For a host name beginning with *www.*, `\HotMelt\Config` will also try to load the configuration file for the corresponding host name without *www.*.
  */
-class Config
+final class Config
 {
 	/** @ignore */
 	private static $options = array(
