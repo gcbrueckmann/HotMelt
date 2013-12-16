@@ -32,4 +32,4 @@ spl_autoload_register(function ($class) {
 	}
 });
 
-@include_once(dirname(__FILE__).'/../Site/autoload.php');
+@include_once(HOTMELT_SITE_DIRECTORY.'/autoload.php');
