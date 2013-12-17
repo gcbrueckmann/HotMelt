@@ -58,12 +58,12 @@ This will redirect all requests for non-existing files to the HotMelt dispatch m
 
 # Configure Your Site
 
-First, prepare the `init.php`, `autoload.php` and `routes.php` files (that is one command spanning three lines):
+First, prepare the `config.php`, `init.php`, `autoload.php` and `routes.php` files (that is one command spanning three lines):
 
 ``` bash
 ~/MyWebsite$ echo '<?php
 namespace MySite;
-' | tee Site/{init,autoload,routes}.php > /dev/null
+' | tee Site/{config,init,autoload,routes}.php > /dev/null
 ```
 
 Configuration options can be set in `Site/config.php`. Additionally, HotMelt will also load files matching `Site/config-<DOMAIN>.php`, where `<DOMAIN>` is the host name for the request. If the request's host name begins with `www.`, but there is no configuration file for this domain, HotMelt will also look for an appropriate configuration file without this prefix. So for a request to `www.example.com` HotMelt will try to load these configuration files:
