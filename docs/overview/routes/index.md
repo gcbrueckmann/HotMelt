@@ -22,6 +22,8 @@ Routes are declared through the interfaces provided by the `Route` class. HotMel
 - A string or an array of strings identifying the valid HTTP methods for this route (optional).
 - An array of options (optional). This is typically used for per-route configuration of middleware options, such as `Middleware\BasicAccessAuthentication`.
 
+Pass `null` for the `$action` parameter and HotMelt will use a default action implementation (as returned by `HotMelt\Action::defaultAction()`). This can be useful if you want to render a template for a route that does not require any action level processing.
+
 Routes are evaluated in the order they have been declared in. If you want to define the same options for multiple routes, you can bracket these in calls to `Route::pushDefaultOptions()` and `Route::popDefaultOptions()`.
 
 [actions-overview]: ../actions
