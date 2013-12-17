@@ -13,6 +13,7 @@ no_title: true
 - [Routes Overview](overview/routes)
 - [Actions Overview](overview/actions)
 - [Views Overview](overview/views)
+- [Configuration Overview](overview/configuration)
 
 # API Reference
 
