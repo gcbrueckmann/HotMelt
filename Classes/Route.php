@@ -176,14 +176,14 @@ class Route
 			return $this->_view;
 		} elseif ($key == 'action') {
 			if (!isset($this->_action)) {
-				if ($this->_actionSpec === null) {
+				if ($this->_actionSpec === null || $this->_actionSpec === false) {
 					$this->_action = Action::defaultAction();
-				} elseif (strpos($this->_actionSpec, '::') !== false) {
+				} elseif (is_callable($this->_actionSpec)) {
 					$this->_action = new Action($this->_actionSpec);
 				} elseif (is_a($this->_actionSpec, 'HotMelt\\Action')) {
 					$this->_action = $this->_actionSpec;
 				} else {
-					$this->_action = new Action($this->_actionSpec);
+					Log::error("Unknown action type ({$this->_actionSpec})");
 				}
 			}
 			return $this->_action;
