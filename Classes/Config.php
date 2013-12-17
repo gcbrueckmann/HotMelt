@@ -95,7 +95,7 @@ if (!(isset($_SERVER) && array_key_exists('SERVER_NAME', $_SERVER))) {
 	}
 }
 
-$siteConfigDir = dirname(__FILE__).'/../../Site';
+$siteConfigDir = HOTMELT_SITE_DIRECTORY;
 require_once("$siteConfigDir/config.php");
 $host = Config::host();
 $configCandidates = array("$siteConfigDir/config-$host.php");

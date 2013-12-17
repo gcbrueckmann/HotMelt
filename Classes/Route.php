@@ -327,4 +327,4 @@ class Route
 	}
 }
 
-require_once(dirname(__FILE__).'/../../Site/routes.php');
+require_once(HOTMELT_SITE_DIRECTORY.'/routes.php');

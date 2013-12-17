@@ -50,7 +50,7 @@ class TemplateView extends View
 			require_once dirname(__FILE__).'/../lib/Twig/lib/Twig/Autoloader.php';
 			\Twig_Autoloader::register();
 			
-			$loader = new \Twig_Loader_Filesystem(dirname(__FILE__).'/../../Site/Templates/');
+			$loader = new \Twig_Loader_Filesystem(HOTMELT_SITE_DIRECTORY.'/Templates/');
 			$twigEnvironmentOptions = array();
 			if (Config::cachedTemplatesDirectory()) {
 				$twigEnvironmentOptions['cache'] = Config::cachedTemplatesDirectory();

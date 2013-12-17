@@ -8,6 +8,10 @@ namespace HotMelt;
 
 error_reporting(E_ALL);
 
+if (!defined('HOTMELT_SITE_DIRECTORY')) {
+	define('HOTMELT_SITE_DIRECTORY', dirname(__FILE__).'/../Site');
+}
+
 require_once(dirname(__FILE__).'/autoload.php');
 
 Log::setLevel(Config::logLevel());
@@ -17,7 +21,7 @@ if (Config::timezone()) {
 	date_default_timezone_set(Config::timezone());
 }
 
-@include_once(dirname(__FILE__).'/../Site/init.php');
+@include_once(HOTMELT_SITE_DIRECTORY.'/init.php');
 
 $request = Request::HTTPServerRequest();
 $route = Route::find($request);
