@@ -34,10 +34,8 @@ class PDO extends \PDO
 	 * @param string $user The user name to use for authentication.
 	 * @param string $password The password to use for authentication.
 	 * @return \HotMelt\PDO
-	 * 
-	 * @todo Rename to 'mySQL()' for 1.1.0.
 	 */
-	public static function MySQL($host, $db, $user, $password)
+	public static function mySQL($host, $db, $user, $password)
 	{
 		$class = __CLASS__;
 		return new $class("mysql:host=$host;dbname=$db", $user, $password, array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
@@ -50,10 +48,8 @@ class PDO extends \PDO
 	 * 
 	 * @param string $path The path to the Sqlite database file.
 	 * @return \HotMelt\PDO
-	 * 
-	 * @todo Rename to 'sqlite()' for 1.1.0.
 	 */
-	public static function Sqlite($path)
+	public static function sqlite($path)
 	{
 		$class = __CLASS__;
 		return new $class("sqlite:$path");

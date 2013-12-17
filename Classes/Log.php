@@ -45,10 +45,8 @@ class Log
 	 * Return the effective logging level.
 	 * 
 	 * @return int
-	 * 
-	 * @todo Rename to 'getLevel()' for 1.1.0.
 	 */
-	public static function get_level()
+	public static function getLevel()
 	{
 		return self::$level;
 	}
