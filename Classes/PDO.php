@@ -65,30 +65,6 @@ class PDO extends \PDO
 		return $this->dsn;
 	}
 	
-	/**
-	 * Escape (quote) a string for direct injection into a query string.
-	 * 
-	 * This method is semi-driver-aware and will use either `sqlite_escape_string()` or `mysql_escape_string()`.
-	 * Note that this method is deprecated, and you should use the `\PDO::quote()` method provided by the default `PDO` class (which `\HotMelt\PDO` inherits).
-	 * 
-	 * @deprecated 1.1.0 This method is deprecated and will be removed with version 1.1.0. Use the `\PDO::quote()` method provided by the default `PDO` class (which `\HotMelt\PDO` inherits).
-	 * @todo Remove for 1.1.0.
-	 * 
-	 * @param string $string The string to escape (quote).
-	 * @return string
-	 */
-	public function escape($string)
-	{
-		$dsnScheme = substr($this->dsn, 0, strpos($this->dsn, ':'));
-		if ($dsnScheme == 'sqlite') {
-			return sqlite_escape_string($string);
-		} elseif ($dsnScheme == 'mysql') {
-			return mysql_escape_string($string);
-		} else {
-			throw new \Exception("Unknown DSN scheme ($dsnScheme).");
-		}
-	}
-	
 	/** @ignore */
 	public function prepare()
 	{
