@@ -12,7 +12,7 @@ HotMelt is a lightweight framework for implementing model-view-controller semant
 - Template support powered by [Twig][twig].
 - A thin [object-relational mapper layer][orm]: Things like `\MySite\Blog\Post::findByTag($requestedTag)` work without any boilerplate code (except the class definition, of course).
 - [Middleware](docs/api/classes/HotMelt.Middleware.html) support so you can easily extend HotMelt.
-- Host name-based [configuration](docs/api/classes/HotMelt.Config.html).
+- Host name-based [configuration](docs/overview/configuration).
 
 # How Mature Is HotMelt?
 

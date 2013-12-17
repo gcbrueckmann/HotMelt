@@ -66,11 +66,7 @@ namespace MySite;
 ' | tee Site/{config,init,autoload,routes}.php > /dev/null
 ```
 
-Configuration options can be set in `Site/config.php`. Additionally, HotMelt will also load files matching `Site/config-<DOMAIN>.php`, where `<DOMAIN>` is the host name for the request. If the request's host name begins with `www.`, but there is no configuration file for this domain, HotMelt will also look for an appropriate configuration file without this prefix. So for a request to `www.example.com` HotMelt will try to load these configuration files:
-
-- `Site/config.php`
-- `Site/config-www.example.com.php`, or if that doesn't exist:
-- `Site/config-example.com.php`
+`Site/config.php` is where you will tipically set [configuration options](../overview/configuration).
     
 The file `Site/init.php` is loaded by the dispatch machinery as soon as HotMelt is ready, but before a request has actually been processed. You can use this file to configure middleware and other requirements of your site.
 
