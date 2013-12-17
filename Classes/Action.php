@@ -37,7 +37,7 @@ class Action
 	 * 
 	 * @return \HotMelt\Action A default action.
 	 */
-	public function defaultAction()
+	public static function defaultAction()
 	{
 		$class = __CLASS__;
 		return new $class(function($request, $route, $variables) {
