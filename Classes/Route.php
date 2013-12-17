@@ -162,7 +162,7 @@ class Route
 						$this->_view = array($contentType => $this->_viewSpec);
 					} else {
 						$extension = pathinfo($this->_viewSpec, PATHINFO_EXTENSION);
-						if (preg_match('/html?/i', $extension)) {
+						if (preg_match('/(html?|twig)/i', $extension)) {
 							$this->_view = array('text/html' => $this->_viewSpec);
 						} elseif (preg_match('/xhtml?/i', $extension)) {
 							$this->_view = array('application/xhtml+xml' => $this->_viewSpec);
@@ -176,14 +176,14 @@ class Route
 			return $this->_view;
 		} elseif ($key == 'action') {
 			if (!isset($this->_action)) {
-				if ($this->_actionSpec === null) {
+				if ($this->_actionSpec === null || $this->_actionSpec === false) {
 					$this->_action = Action::defaultAction();
-				} elseif (strpos($this->_actionSpec, '::') !== false) {
+				} elseif (is_callable($this->_actionSpec)) {
 					$this->_action = new Action($this->_actionSpec);
 				} elseif (is_a($this->_actionSpec, 'HotMelt\\Action')) {
 					$this->_action = $this->_actionSpec;
 				} else {
-					$this->_action = new Action($this->_actionSpec);
+					Log::error("Unknown action type ({$this->_actionSpec})");
 				}
 			}
 			return $this->_action;
@@ -236,10 +236,8 @@ class Route
 	 * 
 	 * @param string $method The HTTP method to test.
 	 * @return `true`, if the given method is valid for this route, or `false`, if it is not.
-	 * 
-	 * @todo Rename to 'acceptsMethod()' for 1.1.0.
 	 */
-	public function accepts_method($method)
+	public function acceptsMethod($method)
 	{
 		if ($this->methods === false) {
 			return true;
@@ -319,12 +317,12 @@ class Route
 	 */
 	public function negotiateView($request)
 	{
-		$contentType = $this->negotiateContentType($request->HTTPAccept);
+		$contentType = $this->negotiateContentType($request->httpAccept);
 		if (!isset($this->view[$contentType])) {
-			throw new HTTPErrorException(406, "No matching content type for '$request->HTTPAccept'.");
+			throw new HTTPErrorException(406, "No matching content type for '$request->httpAccept'.");
 		}
 		return View::make($this->view[$contentType], $contentType);
 	}
 }
 
-require_once(dirname(__FILE__).'/../../Site/routes.php');
+require_once(HOTMELT_SITE_DIRECTORY.'/routes.php');

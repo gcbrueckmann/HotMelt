@@ -28,7 +28,7 @@ class Middleware
 	 */
 	private static function registerMiddleware()
 	{
-		$siteMiddlewarePath = dirname(__FILE__).'/../../Site/middleware.php';
+		$siteMiddlewarePath = HOTMELT_SITE_DIRECTORY.'/middleware.php';
 		if (file_exists($siteMiddlewarePath)) {
 			require_once($siteMiddlewarePath);
 		}

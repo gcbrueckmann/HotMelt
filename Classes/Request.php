@@ -43,9 +43,8 @@ class Request
 	/**
 	 * Contents of the `Accept:` header from the current request, if there is one.
 	 * @type string
-	 * @todo Rename to 'httpAccept' for 1.1.0.
 	 */
-	public $HTTPAccept;
+	public $httpAccept;
 	/**
 	 * Redirect URL. Set only by some servers, e.g. Apache.
 	 * @type string
@@ -56,10 +55,8 @@ class Request
 	 * Return request information based on the `$_SERVER` global.
 	 * 
 	 * @return Request
-	 * 
-	 * @todo Rename to 'httpServerRequest' for 1.1.0.
 	 */
-	final public static function HTTPServerRequest()
+	final public static function httpServerRequest()
 	{
 		if (!isset(self::$httpServerRequest)) {
 			$class = __CLASS__;
@@ -69,7 +66,7 @@ class Request
 			self::$httpServerRequest->requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : null;
 			self::$httpServerRequest->queryString = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
 			self::$httpServerRequest->requestURI = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null;
-			self::$httpServerRequest->HTTPAccept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : null;
+			self::$httpServerRequest->httpAccept = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : null;
 			self::$httpServerRequest->redirectURL = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : null;
 		}
 		return self::$httpServerRequest;

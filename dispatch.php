@@ -8,6 +8,10 @@ namespace HotMelt;
 
 error_reporting(E_ALL);
 
+if (!defined('HOTMELT_SITE_DIRECTORY')) {
+	define('HOTMELT_SITE_DIRECTORY', dirname(__FILE__).'/../Site');
+}
+
 require_once(dirname(__FILE__).'/autoload.php');
 
 Log::setLevel(Config::logLevel());
@@ -17,9 +21,9 @@ if (Config::timezone()) {
 	date_default_timezone_set(Config::timezone());
 }
 
-@include_once(dirname(__FILE__).'/../Site/init.php');
+@include_once(HOTMELT_SITE_DIRECTORY.'/init.php');
 
-$request = Request::HTTPServerRequest();
+$request = Request::httpServerRequest();
 $route = Route::find($request);
 if ($route === false && substr($request->redirectURL, strlen($request->redirectURL) - 1) != '/') {
 	$alternateURI = $request->redirectURL.'/';
@@ -40,7 +44,7 @@ try {
 	if (!$route) {
 		throw new HTTPErrorException(404, 'No route for '.$request->redirectURL.'.');
 	}
-	if (!$route->accepts_method($request->requestMethod)) {
+	if (!$route->acceptsMethod($request->requestMethod)) {
 		throw new HTTPErrorException(405, 'Method '.$request->requestMethod.' is not acceptable for '.$request->redirectURL.'.');
 	}
 	Log::info("Using $route for $request.");
