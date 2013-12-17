@@ -14,9 +14,9 @@ Adding HotMelt to your site is as easy as cloning this repository into a directo
 Create a repository for your website:
 
 ``` bash
-$ mkdir MyWebsite
-$ cd MyWebsite
-$ git init
+~$ mkdir MyWebsite
+~$ cd MyWebsite
+~/MyWebsite$ git init
 ```
 
 ## Add the HotMelt Submodule
@@ -24,9 +24,9 @@ $ git init
 Add HotMelt as a submodule. You can use any name for the submodule, but we will stick with `HotMelt` for this example.
 
 ``` bash
-$ git submodule add git@github.com:gcbrueckmann/HotMelt.git HotMelt
-$ cd HotMelt
-$ git submodule update --init
+~/MyWebsite$ git submodule add git@github.com:gcbrueckmann/HotMelt.git HotMelt
+~/MyWebsite$ cd HotMelt
+~/MyWebsite/HotMelt$ git submodule update --init
 ```
 
 ## Create the Site Directory
@@ -34,8 +34,8 @@ $ git submodule update --init
 HotMelt assumes that certain files be placed in specific locations. You should create a directory named `Site` alongside the `HotMelt` directory that the HotMelt submodule lives in.
 
 ``` bash
-$ cd ..
-$ mkdir Site
+~/MyWebsite/HotMelt$ cd ..
+~/MyWebsite$ mkdir Site
 ```
 
 ## Dispatch Requests to HotMelt
@@ -61,7 +61,7 @@ This will redirect all requests for non-existing files to the HotMelt dispatch m
 First, prepare the `init.php`, `autoload.php` and `routes.php` files (that is one command spanning three lines):
 
 ``` bash
-$ echo '<?php
+~/MyWebsite$ echo '<?php
 namespace MySite;
 ' | tee Site/{init,autoload,routes}.php > /dev/null
 ```
