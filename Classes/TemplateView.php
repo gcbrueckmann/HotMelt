@@ -55,32 +55,8 @@ class TemplateView extends View
 			if (Config::cachedTemplatesDirectory()) {
 				$twigEnvironmentOptions['cache'] = Config::cachedTemplatesDirectory();
 			}
-			
 			self::$twig = new \Twig_Environment($loader, $twigEnvironmentOptions);
-			// TODO: Remove for 1.1.0.
-			if (Config::textBlocksPDO()) {
-				$function = new \Twig_SimpleFunction('dynamic_text', function ($name, $set, $description) {
-					return TemplateView::textBlockManager()->getBlock($name, $set, $description);
-				});
-				self::$twig->addFunction($function);
-			}
 		}
 		return self::$twig;
-	}
-
-	/** @ignore */
-	private static $textBlockManager;
-	/**
-	 * Return the text block manager used by the `dynamic_text()` Twig function.
-	 * 
-	 * @deprecated 1.1.0 The \HotMelt\TextBlockManager is to be removed in 1.1.0, and so is this method.
-	 * @todo Remove for 1.1.0.
-	 */
-	public static function textBlockManager()
-	{
-		if (!isset(self::$textBlockManager)) {
-			self::$textBlockManager = new TextBlockManager(Config::textBlocksPDO());
-		}
-		return self::$textBlockManager;
 	}
 }
