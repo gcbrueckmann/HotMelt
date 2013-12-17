@@ -13,12 +13,6 @@ namespace HotMelt;
 class View
 {
 	/**
-	 * The content type assigned to the view during initialization.
-	 * 
-	 * @todo Make this a protected or public property, or delete it.
-	 */
-	private $contentType;
-	/**
 	 * HTTP response headers for the view. Prepopulated with a `Content-Type` header as specified when initializing the view.
 	 * @type array
 	 */
@@ -36,8 +30,7 @@ class View
 	 */
 	public function __construct($contentType)
 	{
-		$this->contentType = $contentType;
-		$this->headers = array('Content-Type' => $this->contentType);
+		$this->headers = array('Content-Type' => $contentType);
 		$this->statusCode = 200;
 	}
 	

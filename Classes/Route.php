@@ -236,10 +236,8 @@ class Route
 	 * 
 	 * @param string $method The HTTP method to test.
 	 * @return `true`, if the given method is valid for this route, or `false`, if it is not.
-	 * 
-	 * @todo Rename to 'acceptsMethod()' for 1.1.0.
 	 */
-	public function accepts_method($method)
+	public function acceptsMethod($method)
 	{
 		if ($this->methods === false) {
 			return true;
@@ -319,9 +317,9 @@ class Route
 	 */
 	public function negotiateView($request)
 	{
-		$contentType = $this->negotiateContentType($request->HTTPAccept);
+		$contentType = $this->negotiateContentType($request->httpAccept);
 		if (!isset($this->view[$contentType])) {
-			throw new HTTPErrorException(406, "No matching content type for '$request->HTTPAccept'.");
+			throw new HTTPErrorException(406, "No matching content type for '$request->httpAccept'.");
 		}
 		return View::make($this->view[$contentType], $contentType);
 	}
