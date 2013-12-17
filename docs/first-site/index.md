@@ -103,8 +103,6 @@ class Site
 }
 ```
 
-**Note:** While HotMelt is meant to support any type of callable, i.e. strings with symbol names (for functions and static methods), arrays (for instance object method callbacks), and anonymous functions, as well as subclasses of `\HotMelt\Action`, a bug in the current release means HotMelt will only accept strings with symbol names (for functions and static methods) and subclasses of `\HotMelt\Action`.
-
 ## Implement a View
 
 We will make do with a very simple view, an HTML template file using the [Twig][twig] template language.
