@@ -162,7 +162,7 @@ class Route
 						$this->_view = array($contentType => $this->_viewSpec);
 					} else {
 						$extension = pathinfo($this->_viewSpec, PATHINFO_EXTENSION);
-						if (preg_match('/html?/i', $extension)) {
+						if (preg_match('/(html?|twig)/i', $extension)) {
 							$this->_view = array('text/html' => $this->_viewSpec);
 						} elseif (preg_match('/xhtml?/i', $extension)) {
 							$this->_view = array('application/xhtml+xml' => $this->_viewSpec);
