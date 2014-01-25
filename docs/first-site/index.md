@@ -66,7 +66,7 @@ namespace MySite;
 ' | tee Site/{config,init,autoload,routes}.php > /dev/null
 ```
 
-`Site/config.php` is where you will tipically set [configuration options](../overview/configuration).
+`Site/config.php` is where you will typically set [configuration options](../overview/configuration).
     
 The file `Site/init.php` is loaded by the dispatch machinery as soon as HotMelt is ready, but before a request has actually been processed. You can use this file to configure middleware and other requirements of your site.
 
