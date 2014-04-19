@@ -14,7 +14,7 @@ namespace HotMelt;
  * - Objects have a primary key (assumged to be an auto-incrementing integer) named `id`. Override the `primaryKey()` method to change this.
  * - Some methods allow you to specify a `\HotMelt\PDO` object for database access. If not PDO is given, the PDO returned from the `defaultPDO()` class method is used. The default value returned by this method is `null`, however, so you will have to override this method to use a default PDO.
  * 
- * Note that you should not directly create a new persistent object instance. Use the `findBy...()` and `insert()` methods to retrieve existing objects or create new ones.
+ * Note that you should not directly create a new persistent object instance. Use the `objectsWith...()` and `insert()` methods to retrieve existing objects or create new ones.
  */
 class PersistentObject
 {
