@@ -132,6 +132,8 @@ class PersistentObject
 	}
 	
 	/** @ignore */
+	const QUERY_PREFIX = 'objectsWith';
+	/** @ignore */
 	const FIND_BY_KEY_PREFIX = 'findBy';
 	/** @ignore */
 	const COUNT_BY_KEY_PREFIX = 'countBy';
@@ -139,7 +141,12 @@ class PersistentObject
 	/** @ignore */
 	public static function __callStatic($name, $arguments)
 	{
-		if (strpos($name, self::FIND_BY_KEY_PREFIX) === 0) {
+		if (strpos($name, self::QUERY_PREFIX) === 0) {
+			$query = substr($name, strlen(self::QUERY_PREFIX));
+			$inflector = \ICanBoogie\Inflector::get();
+			$query = $inflector->camelize($query, true);
+			return new PersistentObjectQuery(get_called_class(), $query, $arguments);
+		} elseif (strpos($name, self::FIND_BY_KEY_PREFIX) === 0) {
 			$key = substr($name, strlen(self::FIND_BY_KEY_PREFIX));
 			$inflector = \ICanBoogie\Inflector::get();
 			$key = $inflector->camelize($key, true);
@@ -150,6 +157,42 @@ class PersistentObject
 			$key = $inflector->camelize($key, true);
 			return call_user_func_array(__CLASS__.'::_countByKey', array_merge(array(get_called_class(), $key), $arguments));
 		}
+	}
+	
+	/** @ignore */
+	private static function _querySet($class, $keyName, $keyValue, $limit = false, $sorting = false, $pdo = null)
+	{
+		if ($pdo === null) {
+			assert(($pdo = call_user_func("$class::defaultPDO")) !== null);
+		}
+		$tableName = call_user_func("$class::tableName");
+		if ($limit === false) {
+			$limit = '';
+		} elseif (is_array($limit)) {
+			assert(count($limit) == 2);
+			$limit = 'LIMIT '.$limit[0].','.$limit[1];
+		} else {
+			$limit = "LIMIT $limit";
+		}
+		if ($sorting === false) {
+			$sorting = '';
+		} elseif (strpos($sorting, '+') === 0) {
+			$sorting = 'ORDER BY '.$pdo->quoteIdentifier(substr($sorting, 1)).' ASC';
+		} elseif (strpos($sorting, '-') === 0) {
+			$sorting = 'ORDER BY '.$pdo->quoteIdentifier(substr($sorting, 1)).' DESC';
+		} else {
+			$sorting = 'ORDER BY '.$pdo->quoteIdentifier($sorting).' ASC';
+		}
+		Log::info("SELECT * FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
+		$statement = $pdo->prepare("SELECT * FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
+		if (!$statement->execute(array(":$keyName" => $keyValue))) {
+			return false;
+		}
+		$results = array();
+		while (($obj = $statement->fetchObject($class)) !== false) {
+			$results[] = $obj;
+		}
+		return $results;
 	}
 	
 	/** @ignore */
