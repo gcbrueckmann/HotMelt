@@ -47,6 +47,16 @@ class PersistentObjectQuery
 		}
 	}
 	
+	const OPERATOR_EQUAL_TO = 'EqualTo';
+	const OPERATOR_NOT_EQUAL_TO = 'NotEqualTo';
+	const OPERATOR_LESS_THAN = 'LessThan';
+	const OPERATOR_LESS_THAN_OR_EQUAL_TO = 'LessThanOrEqualTo';
+	const OPERATOR_GREATER_THAN = 'GreaterThan';
+	const OPERATOR_GREATER_THAN_OR_EQUAL_TO = 'GreaterThanOrEqualTo';
+	const OPERATOR_CONTAINS = 'Contains';
+	const OPERATOR_BEGINS_WITH = 'BeginsWith';
+	const OPERATOR_ENDS_WITH = 'EndsWith';
+	
 	/** @ignore */
 	private function whereClause()
 	{
@@ -63,15 +73,18 @@ class PersistentObjectQuery
 				$whereClauseComponents[] = 'OR';
 			} else {
 				$operators = array(
-					'EqualTo' => '=',
-					'NotEqualTo' => '=',
-					'LessThan' => '<',
-					'LessThanOrEqualTo' => '<=',
-					'GreaterThan' => '<',
-					'GreaterThanOrEqualTo' => '<='
+					self::OPERATOR_EQUAL_TO => '=',
+					self::OPERATOR_NOT_EQUAL_TO => '!=',
+					self::OPERATOR_LESS_THAN => '<',
+					self::OPERATOR_LESS_THAN_OR_EQUAL_TO => '<=',
+					self::OPERATOR_GREATER_THAN => '<',
+					self::OPERATOR_GREATER_THAN_OR_EQUAL_TO => '<=',
+					self::OPERATOR_CONTAINS => false,
+					self::OPERATOR_BEGINS_WITH => false,
+					self::OPERATOR_ENDS_WITH => false
 				);
 				$key = $component;
-				$operator = 'EqualTo';
+				$operator = self::OPERATOR_EQUAL_TO;
 				foreach (array_keys($operators) as $operatorSuffix) {
 					if (($operatorOffset = strrpos($component, $operatorSuffix)) !== false) {
 						$key = substr($component, 0, $operatorOffset);
@@ -79,7 +92,20 @@ class PersistentObjectQuery
 					}
 				}
 				$key = $inflector->camelize($key, true);
-				$whereClauseComponents[] = "$key {$operators[$operator]} ?";
+				switch ($operator) {
+					case self::OPERATOR_CONTAINS:
+						$whereClauseComponents[] = "$key LIKE ('%%' || ? || '%%')";
+						break;
+					case self::OPERATOR_BEGINS_WITH:
+						$whereClauseComponents[] = "$key LIKE (? || '%%')";
+						break;
+					case self::OPERATOR_ENDS_WITH:
+						$whereClauseComponents[] = "$key LIKE ('%%' || ?)";
+						break;
+					default:
+						$whereClauseComponents[] = "$key {$operators[$operator]} ?";
+						break;
+				}
 			}
 		}
 		return implode(' ', $whereClauseComponents);
