@@ -132,7 +132,7 @@ class PersistentObjectQuery
 			return false;
 		}
 		$results = array();
-		while (($obj = $statement->fetchObject($class)) !== false) {
+		while (($obj = $statement->fetchObject($this->_persistentObjectClass)) !== false) {
 			$results[] = $obj;
 		}
 		if ($limit === false) {
