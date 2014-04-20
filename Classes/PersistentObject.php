@@ -160,42 +160,6 @@ class PersistentObject
 	}
 	
 	/** @ignore */
-	private static function _querySet($class, $keyName, $keyValue, $limit = false, $sorting = false, $pdo = null)
-	{
-		if ($pdo === null) {
-			assert(($pdo = call_user_func("$class::defaultPDO")) !== null);
-		}
-		$tableName = call_user_func("$class::tableName");
-		if ($limit === false) {
-			$limit = '';
-		} elseif (is_array($limit)) {
-			assert(count($limit) == 2);
-			$limit = 'LIMIT '.$limit[0].','.$limit[1];
-		} else {
-			$limit = "LIMIT $limit";
-		}
-		if ($sorting === false) {
-			$sorting = '';
-		} elseif (strpos($sorting, '+') === 0) {
-			$sorting = 'ORDER BY '.$pdo->quoteIdentifier(substr($sorting, 1)).' ASC';
-		} elseif (strpos($sorting, '-') === 0) {
-			$sorting = 'ORDER BY '.$pdo->quoteIdentifier(substr($sorting, 1)).' DESC';
-		} else {
-			$sorting = 'ORDER BY '.$pdo->quoteIdentifier($sorting).' ASC';
-		}
-		Log::info("SELECT * FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
-		$statement = $pdo->prepare("SELECT * FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
-		if (!$statement->execute(array(":$keyName" => $keyValue))) {
-			return false;
-		}
-		$results = array();
-		while (($obj = $statement->fetchObject($class)) !== false) {
-			$results[] = $obj;
-		}
-		return $results;
-	}
-	
-	/** @ignore */
 	private static function _findByKey($class, $keyName, $keyValue, $limit = false, $sorting = false, $pdo = null)
 	{
 		if ($pdo === null) {
