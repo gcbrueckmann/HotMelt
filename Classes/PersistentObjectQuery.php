@@ -53,9 +53,9 @@ class PersistentObjectQuery
 	const OPERATOR_LESS_THAN_OR_EQUAL_TO = 'LessThanOrEqualTo';
 	const OPERATOR_GREATER_THAN = 'GreaterThan';
 	const OPERATOR_GREATER_THAN_OR_EQUAL_TO = 'GreaterThanOrEqualTo';
-	const OPERATOR_CONTAINS = 'Contains';
-	const OPERATOR_BEGINS_WITH = 'BeginsWith';
-	const OPERATOR_ENDS_WITH = 'EndsWith';
+	const OPERATOR_CONTAINS = 'Containing';
+	const OPERATOR_BEGINS_WITH = 'BeginningWith';
+	const OPERATOR_ENDS_WITH = 'EndingWith';
 	
 	/** @ignore */
 	private function whereClause()
