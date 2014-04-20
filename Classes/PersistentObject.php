@@ -14,7 +14,7 @@ namespace HotMelt;
  * - Objects have a primary key (assumged to be an auto-incrementing integer) named `id`. Override the `primaryKey()` method to change this.
  * - Some methods allow you to specify a `\HotMelt\PDO` object for database access. If not PDO is given, the PDO returned from the `defaultPDO()` class method is used. The default value returned by this method is `null`, however, so you will have to override this method to use a default PDO.
  * 
- * Note that you should not directly create a new persistent object instance. Use the `findBy...()` and `insert()` methods to retrieve existing objects or create new ones.
+ * Note that you should not directly create a new persistent object instance. Use the `objectsWith...()` and `insert()` methods to retrieve existing objects or create new ones.
  */
 class PersistentObject
 {
@@ -132,6 +132,8 @@ class PersistentObject
 	}
 	
 	/** @ignore */
+	const QUERY_PREFIX = 'objectsWith';
+	/** @ignore */
 	const FIND_BY_KEY_PREFIX = 'findBy';
 	/** @ignore */
 	const COUNT_BY_KEY_PREFIX = 'countBy';
@@ -139,7 +141,12 @@ class PersistentObject
 	/** @ignore */
 	public static function __callStatic($name, $arguments)
 	{
-		if (strpos($name, self::FIND_BY_KEY_PREFIX) === 0) {
+		if (strpos($name, self::QUERY_PREFIX) === 0) {
+			$query = substr($name, strlen(self::QUERY_PREFIX));
+			$inflector = \ICanBoogie\Inflector::get();
+			$query = $inflector->camelize($query, true);
+			return new PersistentObjectQuery(get_called_class(), $query, $arguments);
+		} elseif (strpos($name, self::FIND_BY_KEY_PREFIX) === 0) {
 			$key = substr($name, strlen(self::FIND_BY_KEY_PREFIX));
 			$inflector = \ICanBoogie\Inflector::get();
 			$key = $inflector->camelize($key, true);
@@ -155,59 +162,15 @@ class PersistentObject
 	/** @ignore */
 	private static function _findByKey($class, $keyName, $keyValue, $limit = false, $sorting = false, $pdo = null)
 	{
-		if ($pdo === null) {
-			assert(($pdo = call_user_func("$class::defaultPDO")) !== null);
-		}
-		$tableName = call_user_func("$class::tableName");
-		if ($limit === false) {
-			$limit = '';
-		} elseif (is_array($limit)) {
-			assert(count($limit) == 2);
-			$limit = 'LIMIT '.$limit[0].','.$limit[1];
-		} else {
-			$limit = "LIMIT $limit";
-		}
-		if ($sorting === false) {
-			$sorting = '';
-		} elseif (strpos($sorting, '+') === 0) {
-			$sorting = 'ORDER BY '.$pdo->quoteIdentifier(substr($sorting, 1)).' ASC';
-		} elseif (strpos($sorting, '-') === 0) {
-			$sorting = 'ORDER BY '.$pdo->quoteIdentifier(substr($sorting, 1)).' DESC';
-		} else {
-			$sorting = 'ORDER BY '.$pdo->quoteIdentifier($sorting).' ASC';
-		}
-		Log::info("SELECT * FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
-		$statement = $pdo->prepare("SELECT * FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $sorting $limit");
-		if (!$statement->execute(array(":$keyName" => $keyValue))) {
-			return false;
-		}
-		$results = array();
-		while (($obj = $statement->fetchObject($class)) !== false) {
-			$results[] = $obj;
-		}
-		return $results;
+		$query = new PersistentObjectQuery($class, $keyName, array($keyValue), $pdo);
+		return $query->fetch($limit, $sorting);
 	}
 	
 	/** @ignore */
 	private static function _countByKey($class, $keyName, $keyValue, $limit = false, $pdo = null)
 	{
-		if ($pdo === null) {
-			assert(($pdo = call_user_func("$class::defaultPDO")) !== null);
-		}
-		$tableName = call_user_func("$class::tableName");
-		if ($limit === false) {
-			$limit = '';
-		} else {
-			$limit = "LIMIT $limit";
-		}
-		$statement = $pdo->prepare("SELECT COUNT(*) AS rowCount FROM ".$pdo->quoteIdentifier($tableName)." WHERE ".$pdo->quoteIdentifier($keyName)." = :$keyName $limit");
-		if (!$statement->execute(array(":$keyName" => $keyValue))) {
-			return false;
-		}
-		if (($result = $statement->fetchObject()) === false) {
-			return false;
-		}
-		return intval($result->rowCount);
+		$query = new PersistentObjectQuery($class, $keyName, array($keyValue), $pdo);
+		return $query->count($limit);
 	}
 	
 	/**
