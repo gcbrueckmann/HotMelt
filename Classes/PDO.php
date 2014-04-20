@@ -7,7 +7,7 @@ namespace HotMelt;
 /**
  * Extends to default `PDO` class with capabilities used by other HotMelt classes.
  * 
- * Extensions include a wrapper around `\PDO::prepare()` that wraps statements in an instance of `\HotMelt\PDOStatementDecorator` and support for quoting identifiers (`\HotMelt\PDO::quoteIdentifier()`).
+ * Extensions include support for quoting identifiers (`\HotMelt\PDO::quoteIdentifier()`).
  */
 class PDO extends \PDO
 {
@@ -59,14 +59,6 @@ class PDO extends \PDO
 	public function __toString()
 	{
 		return $this->dsn;
-	}
-	
-	/** @ignore */
-	public function prepare()
-	{
-		$args = func_get_args();
-		$statement = call_user_func_array(array($this, 'parent::prepare'), $args);
-		return new PDOStatementDecorator($statement, $this);
 	}
 	
 	/**
