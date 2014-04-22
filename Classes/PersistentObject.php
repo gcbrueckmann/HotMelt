@@ -19,8 +19,9 @@ namespace HotMelt;
 class PersistentObject
 {
 	/** @ignore */
-	public function __construct($fetchedProperties = false)
+	public function __construct($fetchedProperties = false, $pdo=null)
 	{
+		$this->pdo = $pdo;
 		if ($fetchedProperties === false) {
 			$this->_fetchedProperties = array_keys($this->publicProperties());
 		} else {
@@ -188,8 +189,7 @@ class PersistentObject
 			assert(($pdo = call_user_func("$class::defaultPDO")) !== null);
 		}
 		$reflector = new \ReflectionClass(get_called_class());
-		$obj = $reflector->newInstance($properties);
-		$obj->pdo = $pdo;
+		$obj = $reflector->newInstance($properties, $pdo);
 		if (!$obj->save()) {
 			return false;
 		}
