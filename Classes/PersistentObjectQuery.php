@@ -132,7 +132,9 @@ class PersistentObjectQuery
 			return false;
 		}
 		$results = array();
-		while (($obj = $statement->fetchObject($this->_persistentObjectClass)) !== false) {
+		while (($fetchedProperties = $statement->fetch(PDO::FETCH_ASSOC)) !== false) {
+			$reflector = new \ReflectionClass($this->_persistentObjectClass);
+			$obj = $reflector->newInstance($fetchedProperties, $pdo);
 			$results[] = $obj;
 		}
 		if ($limit === false) {
