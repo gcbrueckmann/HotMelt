@@ -47,14 +47,23 @@ class PersistentObjectQuery
 		}
 	}
 	
+	/** @ignore */
 	const OPERATOR_EQUAL_TO = 'EqualTo';
+	/** @ignore */
 	const OPERATOR_NOT_EQUAL_TO = 'NotEqualTo';
+	/** @ignore */
 	const OPERATOR_LESS_THAN = 'LessThan';
+	/** @ignore */
 	const OPERATOR_LESS_THAN_OR_EQUAL_TO = 'LessThanOrEqualTo';
+	/** @ignore */
 	const OPERATOR_GREATER_THAN = 'GreaterThan';
+	/** @ignore */
 	const OPERATOR_GREATER_THAN_OR_EQUAL_TO = 'GreaterThanOrEqualTo';
+	/** @ignore */
 	const OPERATOR_CONTAINS = 'Containing';
+	/** @ignore */
 	const OPERATOR_BEGINS_WITH = 'BeginningWith';
+	/** @ignore */
 	const OPERATOR_ENDS_WITH = 'EndingWith';
 	
 	/** @ignore */
