@@ -21,6 +21,13 @@ class PersistentObjectQuery
 	}
 	
 	/** @ignore */
+	public function __toString()
+	{
+		$tableName = call_user_func("{$this->_persistentObjectClass}::tableName");
+		return "<PersistentObjectQuery on `$tableName` WHERE ".$this->whereClause().">";
+	}
+	
+	/** @ignore */
 	private function limitClauseForRange($range)
 	{
 		if ($range === false) {
