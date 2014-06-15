@@ -175,6 +175,16 @@ class PersistentObject
 	}
 	
 	/**
+	 * Return a persistent object query that matches all objects for this class.
+	 * 
+	 * @return PersistentObjectQuery A persistent object query that matches all objects for this class.
+	 */
+	public static function allObjects()
+	{
+		return new PersistentObjectQuery(get_called_class());
+	}
+	
+	/**
 	 * Create a new object and saves it to the database.
 	 * 
 	 * @param array $properties The values to assign for the new object's properties. Set to `false` (rather than an empty array) if you do not wish to assign default values.
