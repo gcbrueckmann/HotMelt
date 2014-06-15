@@ -12,11 +12,11 @@ namespace HotMelt;
 class PersistentObjectQuery
 {
 	/** @ignore */
-	public function __construct($persistentObjectClass, $queryString, $arguments, $pdo=null)
+	public function __construct($persistentObjectClass, $queryString=false, $arguments=false, $pdo=null)
 	{
 		$this->_persistentObjectClass = $persistentObjectClass;
 		$this->_queryString = $queryString;
-		$this->_arguments = $arguments;
+		$this->_arguments = $arguments ?: array();
 		$this->_pdo = $pdo;
 	}
 	
@@ -76,6 +76,9 @@ class PersistentObjectQuery
 	/** @ignore */
 	private function whereClause()
 	{
+		if (empty($this->_queryString)) {
+			return '1';
+		}
 		$whereClauseComponents = array();
 		$inflector = \ICanBoogie\Inflector::get();
 		$queryComponents = preg_split('/(And|Or)(?!EqualTo)/', $this->_queryString, null, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
